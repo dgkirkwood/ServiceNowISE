@@ -68,11 +68,11 @@ while True:
                     sparkCall.POSTMessage(payload)
 
 
-                    url = "https://10.66.113.102:9060/ers/config/internaluser/e118bc02-dc0f-4f8f-99f4-1dca897598d7"
+                    url = "https://10.67.54.85:9060/ers/config/internaluser/e118bc02-dc0f-4f8f-99f4-1dca897598d7"
 
                     payloadDict = {
                         "InternalUser": {
-                            "id": "e118bc02-dc0f-4f8f-99f4-1dca897598d7",
+                            "id": "3f2d3c27-c403-49e5-a73c-daaa340b5bb1",
                             "name": 'davidloo',
                             "enabled": True,
                             "identityGroups": viewOnlyGroup,
@@ -91,6 +91,37 @@ while True:
                         }
 
                     response = requests.request("PUT", url, data=payloadJSON, headers=headers, verify=False)
+
+                    deviceURL = 'https://10.67.54.85:9060/ers/config/networkdevice/eab08020-4c15-11e8-a046-6616e204bb54'
+                    deviceChange = {
+                        "NetworkDevice": {
+                            "id": "eab08020-4c15-11e8-a046-6616e204bb54",
+                            "name": "4948",
+                            "modelName": "4948",
+                            "softwareVersion": "Unknown",
+                            "tacacsSettings": {
+                                "sharedSecret": "C1sco12345",
+                                "connectModeOptions": "OFF",
+                                "previousSharedSecret": "",
+                                "previousSharedSecretExpiry": 0
+                            },
+                            "NetworkDeviceIPList": [
+                                {
+                                    "ipaddress": "10.66.106.44",
+                                    "mask": 32
+                                }
+                            ],
+                            "NetworkDeviceGroupList": [
+                                "Location#All Locations",
+                                "IPSEC#Is IPSEC Device#No",
+                                "Device Type#All Device Types#AccessSwitches#WithinChangeWindow"
+                            ]
+                        }
+                    }
+
+                    deviceChangeJSON = json.dumps(deviceChange)
+
+                    response = requests.request("PUT", deviceURL, data=deviceChangeJSON, headers=headers, verify=False)
 
 
 
