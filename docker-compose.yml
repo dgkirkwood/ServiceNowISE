@@ -1,0 +1,53 @@
+version: '3'
+
+
+services:
+
+  servicenow_checker:
+    build: ./servicenow_checker
+    volumes:
+      - ./servicenow_checker:/usr/src/app
+    ports:
+      - "8080:8080"
+    networks:
+      app-network:
+        ipv4_address: 172.30.0.10
+    container_name: servicenow_checker
+
+  ise_updater:
+      build: ./ise_updater
+      volumes:
+        - ./ise_updater:/usr/src/app
+#      ports:
+#        - "29171:29171"
+      networks:
+        app-network:
+          ipv4_address: 172.30.0.15
+      container_name: ise_updater
+
+  deleter:
+    build: ./deleter
+    volumes:
+      - ./deleter:/usr/src/app
+    networks:
+      app-network:
+        ipv4_address: 172.30.0.20
+    container_name: deleter
+
+  database:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      app-network:
+        ipv4_address: 172.30.0.25
+    container_name: database
+
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/16
