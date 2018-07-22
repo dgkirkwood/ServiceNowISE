@@ -25,7 +25,7 @@ activeChangesTable.create_index([('number', pymongo.ASCENDING)], unique=True)
 sparkCall = SparkAPI(botToken)
 
 
-url = "https://dev50338.service-now.com/api/now/table/change_request"
+url = "https://dev59027.service-now.com/api/now/table/change_request"
 
 querystring = {"sysparm_query":"category=network^ORDERBYDESCnumber"}
 
@@ -37,43 +37,51 @@ headers = {
 
 while True:
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    
+    try:
 
-    #print(response.text)
+        response = requests.request("GET", url, headers=headers, params=querystring)
 
-    responseDict = json.loads(response.text)
+        #print(response.text)
 
-    first = responseDict['result'][0]
+        responseDict = json.loads(response.text)
 
-    for entry in responseDict['result']:
+        first = responseDict['result'][0]
 
-        #print('this entry is ' + entry['number'])
+        for entry in responseDict['result']:
 
-        startDate = entry['start_date']
-        startObj = datetime.datetime.strptime(startDate , '%Y-%m-%d %H:%M:%S')
-        #print ('start time is ' + startObj.strftime('%Y/%m/%d %X'))
+            #print('this entry is ' + entry['number'])
 
-        endDate = entry['end_date']
-        endObj = datetime.datetime.strptime(endDate , '%Y-%m-%d %H:%M:%S')
-        #print ('end time is ' + endObj.strftime('%Y/%m/%d %X'))
+            startDate = entry['start_date']
+            startObj = datetime.datetime.strptime(startDate , '%Y-%m-%d %H:%M:%S')
+            #print ('start time is ' + startObj.strftime('%Y/%m/%d %X'))
 
-        timeNow = datetime.datetime.utcnow()
-        #print ('current time is ' + timeNow.strftime('%Y/%m/%d %X'))
+            endDate = entry['end_date']
+            endObj = datetime.datetime.strptime(endDate , '%Y-%m-%d %H:%M:%S')
+            #print ('end time is ' + endObj.strftime('%Y/%m/%d %X'))
 
-        if timeNow > startObj and timeNow < endObj:
-            try:
-                activeChangesTable.insert_one(entry)
-            except pymongo.errors.DuplicateKeyError:
-                print('Entry already in the table')
-                break
+            timeNow = datetime.datetime.utcnow()
+            #print ('current time is ' + timeNow.strftime('%Y/%m/%d %X'))
 
-            payload = "{\n  \"roomId\" : \""+roomId+"\",\n  \"text\" : \"Change window has opened for request "+entry['number']+". Assigning user rights...\"\n}"
+            if timeNow > startObj and timeNow < endObj:
+                try:
+                    activeChangesTable.insert_one(entry)
+                except pymongo.errors.DuplicateKeyError:
+                    print('Entry already in the table')
+                    break
 
-            sparkCall.POSTMessage(payload)
+                payload = "{\n  \"roomId\" : \""+roomId+"\",\n  \"text\" : \"Change window has opened for request "+entry['number']+". Assigning user rights...\"\n}"
+
+                sparkCall.POSTMessage(payload)
 
 
-    time.sleep(20)
+        time.sleep(20)
 
+    except requests.exceptions.SSLError:
+
+        print('connection error')
+        time.sleep(10)
+        continue
 
 
 

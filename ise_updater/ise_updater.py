@@ -22,8 +22,8 @@ sparkCall = SparkAPI(botToken)
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-changeGroup = 'c735f800-46e8-11e8-b70b-00505698c3e2'
-viewOnlyGroup = '0b165030-38c3-11e8-b70b-00505698c3e2'
+changeGroup = 'f879a2c0-4c17-11e8-a046-6616e204bb54'
+viewOnlyGroup = 'eebca7a0-4c17-11e8-a046-6616e204bb54'
 
 mongoAddr = 'database:27017'
 client = MongoClient(mongoAddr)
@@ -37,13 +37,13 @@ activeChangesTable = activeChangesDB.activeChangesTable
 
 
 
-url = "https://10.67.54.85:9060/ers/config/internaluser/e118bc02-dc0f-4f8f-99f4-1dca897598d7"
+url = "https://10.67.54.85:9060/ers/config/internaluser/3f2d3c27-c403-49e5-a73c-daaa340b5bb1"
 
 payloadDict = {
     "InternalUser": {
         "id": "3f2d3c27-c403-49e5-a73c-daaa340b5bb1",
         "name": "davidloo",
-        "identityGroups": "0b165030-38c3-11e8-b70b-00505698c3e2"
+        "identityGroups": viewOnlyGroup
     }
 }
 
@@ -53,7 +53,7 @@ payloadJSON = json.dumps(payloadDict)
 ISEHeaders = {
     'Content-Type': "application/json",
     'Accept': "application/json",
-    'Authorization': "Basic YWRtaW46QyFzY28xMjM=",
+    'Authorization': "Basic RVJTQWRtaW46QyFzY28xMjM=",
     'Cache-Control': "no-cache",
     }
 
@@ -89,7 +89,7 @@ while True:
 
             asset = responseDict['result']['name']
 
-            url = "https://10.67.54.85:9060/ers/config/internaluser/e118bc02-dc0f-4f8f-99f4-1dca897598d7"
+            url = "https://10.67.54.85:9060/ers/config/internaluser/3f2d3c27-c403-49e5-a73c-daaa340b5bb1"
 
             payloadDict = {
                 "InternalUser": {
@@ -106,7 +106,7 @@ while True:
             headers = {
                 'Content-Type': "application/json",
                 'Accept': "application/json",
-                'Authorization': "Basic YWRtaW46QyFzY28xMjM=",
+                'Authorization': "Basic RVJTQWRtaW46QyFzY28xMjM=",
                 'Cache-Control': "no-cache",
                 }
 
