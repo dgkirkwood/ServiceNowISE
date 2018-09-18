@@ -25,7 +25,7 @@ activeChangesTable.create_index([('number', pymongo.ASCENDING)], unique=True)
 sparkCall = SparkAPI(botToken)
 
 
-url = "https://dev59027.service-now.com/api/now/table/change_request"
+url = "https://dev66285.service-now.com/api/now/table/change_request"
 
 querystring = {"sysparm_query":"category=network^ORDERBYDESCnumber"}
 

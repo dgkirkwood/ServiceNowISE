@@ -45,7 +45,7 @@ while True:
                 try:
 
                     #Do a check to see if the end date has changed
-                    ServNowUrl = "https://dev59027.service-now.com/api/now/table/change_request/" + entry['sys_id']
+                    ServNowUrl = "https://dev66285.service-now.com/api/now/table/change_request/" + entry['sys_id']
                     ServNowHeaders = {'Authorization': "Basic YWRtaW46QyFzY28xMjM=", 'Cache-Control': "no-cache",}
 
                     entryCheck = requests.request("GET", ServNowUrl, headers=ServNowHeaders)
